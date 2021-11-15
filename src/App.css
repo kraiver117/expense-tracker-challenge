@@ -19,7 +19,23 @@ body {
 
 .container {
   width: 380px;
-  margin: 25px auto;
+  margin: 0px auto;
+}
+
+.transaction-list__container {
+  margin-bottom: 130px;
+}
+
+.transaction__amount {
+  position: absolute;
+  right: 50px;
+}
+
+.img-transaction {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  border: 1px solid gray;
 }
 
 .balance-container {
@@ -27,6 +43,7 @@ body {
   text-align: center;
   padding: 0.5rem 0.5rem;
   border-radius: 15px;
+  margin-top: 1rem;
 }
 
 .primary-color {
@@ -39,4 +56,52 @@ body {
 
 .text-red {
   color: #d46464;
+}
+
+.slick-slide .slide-h3 {
+  color: #FFFFFF;
+  font-size: 16px;
+  background: var(--primary-color);;
+}
+
+.slick-center .slide-h3 {
+  color: #FFFFFF;
+  font-weight: 700;
+  background: var(--primary-color);;
+}
+
+.slide-h3 {
+  padding: 10% 20%;
+}
+
+.btn-purple {
+  background-color: #86a5ff;
+  color: #fff;
+  width: 240px;
+}
+
+.btn-float {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+.btn-purple:hover {
+  color: #fff;
+  font-weight: 700;
+}
+
+.modal-close-btn {
+  background-color: #fff;
+  border: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  transition: 0.4s all;
+}
+
+.modal-close-btn:hover {
+  font-size: 0.8rem;
 }

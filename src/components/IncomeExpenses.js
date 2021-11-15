@@ -1,10 +1,19 @@
-import React from 'react'
+import React,{ useContext } from 'react'
+import { GlobalContext } from '../context/GlobalState';
 
 export const IncomeExpenses = () => {
+    const { transactions } = useContext(GlobalContext);
+    const amounts = transactions.map(transaction => transaction.amount);
 
-    const income = 0;
+    const income = amounts
+        .filter(item => item > 0)
+        .reduce((acc, item) => (acc += item), 0).toFixed(2);
 
-    const expense = 0;
+
+    const expense = (
+        amounts.filter(item => item < 0)
+        .reduce((acc, item) => (acc += item), 0) * -1
+    ).toFixed(2);
 
     return (
         <div class='d-flex justify-content-evenly'>
