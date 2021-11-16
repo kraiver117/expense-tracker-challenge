@@ -1,12 +1,14 @@
 import React, { useContext } from 'react'
 import { IncomeExpenses } from '../components/IncomeExpenses'
-import { GlobalContext } from '../context/GlobalState';
-import { Analitics } from './Analitics';
+import { GlobalContext } from '../context/GlobalState'
+import { Analitics } from './Analitics'
 
 export const Balance = () => {
-    const { transactions } = useContext(GlobalContext);
+    const { transactions, monthToFilter } = useContext(GlobalContext);
+    const formatedMonthToFilter = monthToFilter.substr(0, 3).toLocaleLowerCase();
+    const filteredTransactionsByMonth = transactions.filter(transaction => transaction.created.toLocaleLowerCase().includes(formatedMonthToFilter));
 
-    const amounts = transactions.map(transaction => transaction.amount);
+    const amounts = filteredTransactionsByMonth.map(transaction => transaction.amount);
     const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
 
     return (

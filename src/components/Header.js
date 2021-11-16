@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Slider from "react-slick"
+import { GlobalContext  } from '../context/GlobalState';
 
 export const Header = () => {
-    const selectedMonth = document.getElementsByClassName('slick-center');
-    const carousel = useRef();
-    console.log(carousel);
+    const { getMonthToFilter } = useContext(GlobalContext);
+    const [currentSlide, setCurrentSlide] = useState(0);
 
     const months = [
         'Enero',
@@ -21,19 +21,25 @@ export const Header = () => {
         'Diciembre'
     ];
 
+    useEffect(() => {
+        getMonthToFilter(months[currentSlide])
+    }, [currentSlide]);
+
     const settings = {
-        className: "center",
+        arrows: false,
+        focusOnSelect: true,
         centerMode: true,
         infinite: true,
         slidesToShow: 3,
-        speed: 500
+        speed: 500,
+        afterChange: current => setCurrentSlide(current)
     };
 
     return (
-        <Slider ref={carousel} {...settings}>
+        <Slider {...settings}>
             {
                 months.map(month => 
-                    <div>
+                    <div key={month} className="slide-container">
                         <h3 className="slide-h3">{month}</h3>
                     </div>
                 )

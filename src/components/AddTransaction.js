@@ -1,11 +1,19 @@
 import React, { useState, useContext } from 'react';
+import moment from 'moment';
 import Modal from 'react-modal';
+import DatePicker, {registerLocale} from 'react-datepicker';
 import { GlobalContext } from '../context/GlobalState';
 
+import "react-datepicker/dist/react-datepicker.css";
+import es from 'date-fns/locale/es';
+registerLocale('es', es);
+
 export const AddTransaction = () => {
-    const { addTransaction, transactions } = useContext(GlobalContext);
+    const { addTransaction, transactions, monthToFilter } = useContext(GlobalContext);
+    const formatedMonthToFilter = monthToFilter.substr(0, 3).toLocaleLowerCase();
     const [transaction, setTransaction] = useState('');
     const [amount, setAmount] = useState('');
+    const [transactionDate, setTransactionDate] = useState(new Date());
     const [error, setError] = useState(false);
     const [amountError, setAmountError] = useState(false);
     const [modalIsOpen, setmodalIsOpen] = useState(false);
@@ -25,10 +33,10 @@ export const AddTransaction = () => {
             id: Math.floor(Math.random() * 100000000),
             text: transaction,
             amount: parseInt(amount),
-            created: new Date()
+            created: moment(transactionDate).format('D MMM')
         }
 
-        const transactionExist = transactions.find(transaction => transaction.text === newTransaction.text);
+        const transactionExist = transactions.find(transaction => (transaction.text === newTransaction.text && newTransaction.created.includes(formatedMonthToFilter)));
 
         if (transactionExist) {
             setError(true);
@@ -41,6 +49,7 @@ export const AddTransaction = () => {
         }
 
         addTransaction(newTransaction);
+        setTransactionDate(new Date());
         setTransaction('');
         setAmount(0);
         setmodalIsOpen(false);
@@ -67,6 +76,17 @@ export const AddTransaction = () => {
                 <h5>Agregar Movimiento</h5>
                 <form onSubmit={handleAddTransaction}>
                     <button className="modal-close-btn" onClick={closeModal}><i class="fa-solid fa-x"></i></button>
+                    <div className="mb-3">
+                        <label className="form-label">
+                            Fecha de transacción
+                        </label>
+                        <DatePicker 
+                            selected={transactionDate} 
+                            onChange={(date) => setTransactionDate(date)} 
+                            maxDate={new Date()}
+                            locale="es"
+                        />
+                    </div>
                     <div className="mb-3">
                         <label className="form-label" htmlFor="transaction">Transacción</label>
                         <input className="form-control" id="transaction" value={transaction} onFocus={() => setError(false)} onChange={(e) => setTransaction(e.target.value)} type="text" placeholder="Ingresa transacción" />

@@ -10,6 +10,11 @@ export default (state, action) => {
                 ...state,
                 transactions: [action.payload, ...state.transactions]
             }
+        case 'GET_MONTH':
+            return {
+                ...state,
+                monthToFilter: action.payload
+            }
         default:
             return state;
     }

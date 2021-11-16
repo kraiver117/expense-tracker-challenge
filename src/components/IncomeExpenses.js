@@ -2,8 +2,11 @@ import React,{ useContext } from 'react'
 import { GlobalContext } from '../context/GlobalState';
 
 export const IncomeExpenses = () => {
-    const { transactions } = useContext(GlobalContext);
-    const amounts = transactions.map(transaction => transaction.amount);
+    const { transactions,monthToFilter } = useContext(GlobalContext);
+    const formatedMonthToFilter = monthToFilter.substr(0, 3).toLocaleLowerCase();
+    const filteredTransactionsByMonth = transactions.filter(transaction => transaction.created.toLocaleLowerCase().includes(formatedMonthToFilter));
+
+    const amounts = filteredTransactionsByMonth.map(transaction => transaction.amount);
 
     const income = amounts
         .filter(item => item > 0)
@@ -16,7 +19,7 @@ export const IncomeExpenses = () => {
     ).toFixed(2);
 
     return (
-        <div class='d-flex justify-content-evenly'>
+        <div className='d-flex justify-content-evenly'>
             <div>
                 <small className='d-block text-green fw-normal'>Ingresos</small>
                 <span className='text-green fs-4 fw-bolder'>+${income}</span>
